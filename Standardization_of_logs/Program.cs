@@ -15,10 +15,7 @@ class Program
         foreach (var l in logs)
         {
             Log log = new Log();
-            Console.WriteLine(l);
-            string correctLogs = "correctLogs.txt";
-            string problems = "problems.txt";
-            Console.WriteLine(log.IsValid(l));    
+            log.CheckLog(l);
         }
         
 
