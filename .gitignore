@@ -2,3 +2,6 @@ bin
 Debug
 .idea
 obj
+/Compressor/obj/Debug
+/Compressor/obj
+Compressor/obj/Debug/net8.0/Compressor.AssemblyInfo.cs

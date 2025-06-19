@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Compressor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f57f1e97a13ff0446cccbfe37158771577ad2c29")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eb38cfb114ec42da169678b6ca95ccbba4cb9140")]
 [assembly: System.Reflection.AssemblyProductAttribute("Compressor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Compressor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
