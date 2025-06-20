@@ -16,13 +16,12 @@ public class Log
         if (log == null) return false;
 
         var regex = new Regex(
-            @"^(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
+            @"(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
             @"(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,4})?))\s*" +
             @"(?:\s*\|\s*[^|]*)*?" +
             @"(?<level>INFORMATION|INFO|WARNING|WARN|ERROR|DEBUG)\b\s*" +
             @"(?:\s*\|\s*(?<method>[A-Za-z0-9_.]+)\s*)*" +
-            @"(?:\s*\|\s*[^|]*)*" +
-            @"\s*(?<message>.+)$",
+            @"(?:\s*\|\s*|\s*)(?<message>.+)$",
             RegexOptions.ExplicitCapture);
 
         var match = regex.Match(log);
@@ -43,22 +42,35 @@ public class Log
         // }
 
         var regex = new Regex(
-            @"^(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
+            @"(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
             @"(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,4})?))\s*" +
             @"(?:\s*\|\s*[^|]*)*?" +
             @"(?<level>INFORMATION|INFO|WARNING|WARN|ERROR|DEBUG)\b\s*" +
             @"(?:\s*\|\s*(?<method>[A-Za-z0-9_.]+)\s*)*" +
-            @"(?:\s*\|\s*[^|]*)*" +
-            @"\s*(?<message>.+)$",
+            @"\s*[|]*(?<message>\s*.[^|]+)$",
             RegexOptions.ExplicitCapture);
 
         var match = regex.Match(log);
         // IEnumerable<string> groupsMatch = match.Groups.Keys;
 
-        data = DateTime.ParseExact(
-            match.Groups["datetime"].Value,
-            "dd.MM.yyyy HH:mm:ss.fff",
-            CultureInfo.InvariantCulture);
+        string[] formats = {
+            "yyyy-MM-dd HH:mm:ss.ffff",
+            "dd.MM.yyyy HH:mm:ss.fff"
+        };
+
+        if (DateTime.TryParseExact(match.Groups["datetime"].Value,
+                formats, CultureInfo.InvariantCulture,
+                DateTimeStyles.None,
+                out DateTime result
+            ))
+        {
+            data = result;
+        }
+        
+        // data = DateTime.ParseExact(
+        //     match.Groups["datetime"].Value,
+        //     "dd.MM.yyyy HH:mm:ss.fff",
+        //     CultureInfo.InvariantCulture);
         lvlLog = match.Groups["level"].Value;
         if (match.Groups["method"].Success)
         {
