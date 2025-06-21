@@ -2,7 +2,6 @@
 
 namespace Compressor;
 
-
 class Program
 {
     static void Main()
@@ -14,13 +13,11 @@ class Program
         Console.WriteLine("2. Декомпрессия строки");
         string? userInputAction = Console.ReadLine();
 
-
-
         Regex latin = new Regex(@"^[A-Za-z]+$");
-        string? userLine;
         Compressor comm = new Compressor();
-
+        string? userLine;
         string? result;
+
         switch (Convert.ToInt64(userInputAction))
         {
             case 1:
@@ -42,7 +39,6 @@ class Program
                     }
                 }
 
-                
                 break;
             case 2:
                 Console.WriteLine("Вы ввели 2");

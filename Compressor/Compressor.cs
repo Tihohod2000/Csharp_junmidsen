@@ -2,7 +2,7 @@ namespace Compressor;
 
 public class Compressor
 {
-    public string Compression(string? link)
+    public string Compression(string link)
     {
         char[] arrLink = link.ToCharArray();
         List<string?> shortLink = new List<string?>();
@@ -70,6 +70,7 @@ public class Compressor
                 fullLink.Add(currentLetter);
                 break;
             }
+
             //если следующий элемент буква, а не цифра
             if (!char.IsDigit(arrLink[i + 1]))
             {

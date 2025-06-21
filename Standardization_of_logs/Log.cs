@@ -5,18 +5,18 @@ namespace Standardization_of_logs;
 
 public class Log
 {
-    private string _data;
-    private string _lvlLog;
+    private string? _data;
+    private string? _lvlLog;
     private string _method = "DEFAULT";
     private string? _message;
 
-    private string LvlLog
+    private string? LvlLog
     {
         get => _lvlLog;
         set => _lvlLog = NormalizeLevel(value);
     }
 
-    private static string NormalizeLevel(string level)
+    private static string? NormalizeLevel(string? level)
     {
         return level switch
         {
@@ -111,14 +111,12 @@ public class Log
 
             ParseFromLog(line);
             //запись в файл Logs.txt
-            if (_message != null)
+            if (_message != null && _data != null && LvlLog != null)
             {
                 string[] arrayOfCorrectLog = [_data, LvlLog, _method, _message];
                 string correctLog = string.Join(" ", arrayOfCorrectLog);
                 WriteInFile(true, correctLog);
             }
-
-                
         }
         catch
         {
