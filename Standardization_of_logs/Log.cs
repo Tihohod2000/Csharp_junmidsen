@@ -137,7 +137,7 @@ public class Log
         }
         else
         {
-            string filePath = "Logs.txt";
+            string filePath = "logs.txt";
             using (StreamWriter writer = new StreamWriter(filePath, append: true))
             {
                 writer.WriteLine(line);
