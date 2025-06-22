@@ -103,4 +103,4 @@ dotnet run --project .\Standardization_of_logs\
 ```
 2. Добавить в папку ```Standardization_of_logs``` файл ```logsInput.txt``` содержащий логи. Это нужно т.к. по заданию просится получать логи из файла.
 
-Вызодные данные сохраняются в файлы ```logs.txt``` и ```problems.txt```
+Выходные данные сохраняются в файлы ```logs.txt``` и ```problems.txt```
