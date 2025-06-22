@@ -1,13 +1,7 @@
 bin
 Debug
 .idea
-/Standardization_of_logs/app
-*.obj
-/Compressor/obj
-/Compressor/obj
-/Compressor/obj
-/Standardization_of_logs/obj
-/Server/obj
-/Compressor/obj
-/Compressor/obj
-/Compressor/obj
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
