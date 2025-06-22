@@ -17,8 +17,7 @@ public static class Server
             RwLockSlim.ExitReadLock(); 
         }
     }
-
-
+    
     public static void AddCount(int value)
     {
         RwLockSlim.EnterWriteLock();

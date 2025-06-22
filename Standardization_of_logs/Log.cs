@@ -38,26 +38,6 @@ public class Log
 
     private Match[] TryParseInfo(string log)
     {
-        // var dataTimeRegex = new Regex(
-        //     @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*", RegexOptions.ExplicitCapture);
-        //
-        // var levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
-        //
-        // var methodRegex = new Regex(@"(?<method>[^|][A-Za-z]+[.]+[A-Za-z]+)\s*", RegexOptions.ExplicitCapture);
-        //
-        // var messageRegex = new Regex(@"(?<message>[А-Яа-я]+\s+[А-Яа-я]+[:]+.*)$");
-        //
-        // Match[] arrayMatch = 
-        // [
-        //     dataTimeRegex.Match(log),
-        //     levelRegex.Match(log),
-        //     methodRegex.Match(log),
-        //     messageRegex.Match(log)
-        // ];
-        
-        
-        
-
         Match[] matches = 
         [
             _dataTimeRegex.Match(log),
@@ -133,8 +113,8 @@ public class Log
             //запись в файл logs.txt
             if (_message != null && _data != null && LvlLog != null)
             {
-                string[] arrayOfCorrectLog = [_data, LvlLog, _method, _message];
-                string correctLog = string.Join("\t", arrayOfCorrectLog);
+                string[] infoOfCorrectLog = [_data, LvlLog, _method, _message];
+                string correctLog = string.Join("\t", infoOfCorrectLog);
                 WriteInFile(true, correctLog);
             }
         }

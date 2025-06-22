@@ -7,7 +7,6 @@ class Program
 {
     static void Main()
     {
-
         int countUsers = 8;
         Task[] tasks = new Task[countUsers];
 
