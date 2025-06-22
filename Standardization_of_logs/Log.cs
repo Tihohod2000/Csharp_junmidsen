@@ -30,7 +30,7 @@ public class Log
     private static Match[] TryParseInfo(string log)
     {
         var dataTimeRegex = new Regex(
-            @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,4})?)\s*", RegexOptions.ExplicitCapture);
+            @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*", RegexOptions.ExplicitCapture);
 
         var levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
 
@@ -56,6 +56,7 @@ public class Log
         Match[] arrayMatch = TryParseInfo(log);
 
         int countCorrect = 0;
+        //проверяет хватает ли данных для валидации
         foreach (var match in arrayMatch)
         {
             if (match.Success) countCorrect++;
@@ -69,7 +70,6 @@ public class Log
     {
         if (line == null) return ;
         
-
         Match[] arrayMatch = TryParseInfo(line);
         
         string[] formats = {
