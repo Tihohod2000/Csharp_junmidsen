@@ -83,7 +83,7 @@ public class Log
                 out DateTime result
             ))
         {
-            _data = result.ToString("dd-MM-yyyy") + $" {arrayMatch[0].Groups["time"]}";
+            _data = result.ToString("dd-MM-yyyy") + $"\t{arrayMatch[0].Groups["time"]}";
         }
         
         LvlLog = arrayMatch[1].Groups["level"].Value;
@@ -114,7 +114,7 @@ public class Log
             if (_message != null && _data != null && LvlLog != null)
             {
                 string[] arrayOfCorrectLog = [_data, LvlLog, _method, _message];
-                string correctLog = string.Join(" ", arrayOfCorrectLog);
+                string correctLog = string.Join("\t", arrayOfCorrectLog);
                 WriteInFile(true, correctLog);
             }
         }
