@@ -5,100 +5,117 @@ namespace Standardization_of_logs;
 
 public class Log
 {
-    public DateTime data { get; set; }
-    public string lvlLog { get; set; }
-    public string method = "DEFAULT";
-    public string message { get; set; }
+    private string? _data;
+    private string? _lvlLog;
+    private string _method = "DEFAULT";
+    private string? _message;
 
-
-    public bool IsValid(string? log)
+    private string? LvlLog
     {
-        if (log == null) return false;
-
-        var regex = new Regex(
-            @"(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
-            @"(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,4})?))\s*" +
-            @"(?:\s*\|\s*[^|]*)*?" +
-            @"(?<level>INFORMATION|INFO|WARNING|WARN|ERROR|DEBUG)\b\s*" +
-            @"(?:\s*\|\s*(?<method>[A-Za-z0-9_.]+)\s*)*" +
-            @"(?:\s*\|\s*|\s*)(?<message>.+)$",
-            RegexOptions.ExplicitCapture);
-
-        var match = regex.Match(log);
-
-        Console.WriteLine(match.Groups["method"].Value);
-        // Console.WriteLine(String.Join(" ",match.Groups.Keys));
-
-        return regex.IsMatch(log);
+        get => _lvlLog;
+        set => _lvlLog = NormalizeLevel(value);
     }
 
-    public void ParseFromLog(string? log)
+    private static string? NormalizeLevel(string? level)
     {
-        // if (log == null) return ;
-        // // if (log == null) return false;
-        // if (!IsValid(log))
-        // {
-        //     return;
-        // }
+        return level switch
+        {
+            "INFORMATION" => "INFO",
+            "WARNING" => "WARN",
+            _ => level
+        };
+    }
 
-        var regex = new Regex(
-            @"(?<datetime>(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+" +
-            @"(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,4})?))\s*" +
-            @"(?:\s*\|\s*[^|]*)*?" +
-            @"(?<level>INFORMATION|INFO|WARNING|WARN|ERROR|DEBUG)\b\s*" +
-            @"(?:\s*\|\s*(?<method>[A-Za-z0-9_.]+)\s*)*" +
-            @"\s*[|]*(?<message>\s*.[^|]+)$",
-            RegexOptions.ExplicitCapture);
+    private static Match[] TryParseInfo(string log)
+    {
+        var dataTimeRegex = new Regex(
+            @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*", RegexOptions.ExplicitCapture);
 
-        var match = regex.Match(log);
-        // IEnumerable<string> groupsMatch = match.Groups.Keys;
+        var levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
 
+        var methodRegex = new Regex(@"(?<method>[^|][A-Za-z]+[.]+[A-Za-z]+)\s*", RegexOptions.ExplicitCapture);
+
+        var messageRegex = new Regex(@"(?<message>[А-Яа-я]+\s+[А-Яа-я]+[:]+.*)$");
+
+        Match[] arrayMatch = 
+        [
+            dataTimeRegex.Match(log),
+            levelRegex.Match(log),
+            methodRegex.Match(log),
+            messageRegex.Match(log)
+        ];
+
+        return arrayMatch;
+    }
+
+    private static bool IsValid(string? log)
+    {
+        if (log == null) return false;
+        
+        Match[] arrayMatch = TryParseInfo(log);
+
+        int countCorrect = 0;
+        //проверяет хватает ли данных для валидации
+        foreach (var match in arrayMatch)
+        {
+            if (match.Success) countCorrect++;
+        }
+
+        if (countCorrect >= 3) return true;
+        return false;
+    }
+
+    private void ParseFromLog(string? line)
+    {
+        if (line == null) return ;
+        
+        Match[] arrayMatch = TryParseInfo(line);
+        
         string[] formats = {
-            "yyyy-MM-dd HH:mm:ss.ffff",
-            "dd.MM.yyyy HH:mm:ss.fff"
+            "yyyy-MM-dd",
+            "dd.MM.yyyy"
         };
 
-        if (DateTime.TryParseExact(match.Groups["datetime"].Value,
+        if (DateTime.TryParseExact(arrayMatch[0].Groups["date"].Value,
                 formats, CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
                 out DateTime result
             ))
         {
-            data = result;
+            _data = result.ToString("dd-MM-yyyy") + $"\t{arrayMatch[0].Groups["time"]}";
         }
         
-        // data = DateTime.ParseExact(
-        //     match.Groups["datetime"].Value,
-        //     "dd.MM.yyyy HH:mm:ss.fff",
-        //     CultureInfo.InvariantCulture);
-        lvlLog = match.Groups["level"].Value;
-        if (match.Groups["method"].Success)
+        LvlLog = arrayMatch[1].Groups["level"].Value;
+        
+        if (arrayMatch[2].Groups["method"].Success)
         {
-            method = match.Groups["method"].Value;
+            _method = arrayMatch[2].Groups["method"].Value;
         }
 
-        message = match.Groups["message"].Value;
+        _message = arrayMatch[3].Groups["message"].Value;
     }
 
 
-    public void CheckLog(string log)
+    public void CheckLog(string line)
     {
         try
         {
-            if (!IsValid(log))
+            //запись в файл problems.txt
+            if (!IsValid(line))
             {
-                writeInFile(false, log);
-                
-                
+                WriteInFile(false, line);
                 return;
             }
 
 
-            ParseFromLog(log);
-            string[] arrayOfCorrectLog = new[] { data.ToString(), lvlLog.ToString(), method.ToString(), message.ToString() };
-            string correctLog = string.Join(" ", arrayOfCorrectLog);
-            writeInFile(true, correctLog);
-            //Тут делать запись в файл Logs.txt    
+            ParseFromLog(line);
+            //запись в файл logs.txt
+            if (_message != null && _data != null && LvlLog != null)
+            {
+                string[] arrayOfCorrectLog = [_data, LvlLog, _method, _message];
+                string correctLog = string.Join("\t", arrayOfCorrectLog);
+                WriteInFile(true, correctLog);
+            }
         }
         catch
         {
@@ -107,7 +124,7 @@ public class Log
     }
 
 
-    public void writeInFile(bool correct, string line)
+    private static void WriteInFile(bool correct, string line)
     {
         if (!correct)
         {
@@ -119,7 +136,7 @@ public class Log
         }
         else
         {
-            string filePath = "Logs.txt";
+            string filePath = "logs.txt";
             using (StreamWriter writer = new StreamWriter(filePath, append: true))
             {
                 writer.WriteLine(line);

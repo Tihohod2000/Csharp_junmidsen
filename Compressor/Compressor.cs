@@ -10,7 +10,7 @@ public class Compressor
 
         for (int i = 0; i < arrLink.Length;)
         {
-            int countIdenticalChar = 0;
+            int countIdenticalChar = 0; //количесвто адинаковых подряд букв
             char current = arrLink[i];
 
             for (int j = i; j < arrLink.Length; j++)
@@ -18,6 +18,7 @@ public class Compressor
                 if (arrLink[i] == arrLink[j])
                 {
                     countIdenticalChar++;
+                    //если элемент последний
                     if (j == arrLink.Length - 1)
                     {
                         i = j + 1;
@@ -55,7 +56,7 @@ public class Compressor
         return string.Join("", shortLink);
     }
 
-    public string Decompression(string link)
+    public string Decompression(string? link)
     {
         char[] arrLink = link.ToCharArray();
         List<char> fullLink = new List<char>();
@@ -63,12 +64,14 @@ public class Compressor
         for (int i = 0; i < arrLink.Length;)
         {
             char currentLetter = arrLink[i];
+            //если текущий последний в массиве
             if (i == arrLink.Length - 1)
             {
                 fullLink.Add(currentLetter);
                 break;
             }
 
+            //если следующий элемент буква, а не цифра
             if (!char.IsDigit(arrLink[i + 1]))
             {
                 fullLink.Add(currentLetter);
