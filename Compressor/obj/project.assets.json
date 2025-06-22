@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Работа\\C#\\C# junmidsen\\Csharp_junmidsen\\Compressor\\Compressor.csproj",
+      "projectUniqueName": "E:\\Работа\\C#\\C#_junmidsen\\Csharp_junmidsen\\Compressor\\Compressor.csproj",
       "projectName": "Compressor",
-      "projectPath": "E:\\Работа\\C#\\C# junmidsen\\Csharp_junmidsen\\Compressor\\Compressor.csproj",
+      "projectPath": "E:\\Работа\\C#\\C#_junmidsen\\Csharp_junmidsen\\Compressor\\Compressor.csproj",
       "packagesPath": "C:\\Users\\Tihohod\\.nuget\\packages\\",
-      "outputPath": "E:\\Работа\\C#\\C# junmidsen\\Csharp_junmidsen\\Compressor\\obj\\",
+      "outputPath": "E:\\Работа\\C#\\C#_junmidsen\\Csharp_junmidsen\\Compressor\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Tihohod\\AppData\\Roaming\\NuGet\\NuGet.Config",

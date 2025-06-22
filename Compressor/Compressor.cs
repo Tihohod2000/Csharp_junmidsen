@@ -15,19 +15,17 @@ public class Compressor
 
             for (int j = i; j < arrLink.Length; j++)
             {
-                if (arrLink[i] == arrLink[j])
-                {
-                    countIdenticalChar++;
-                    //если элемент последний
-                    if (j == arrLink.Length - 1)
-                    {
-                        i = j + 1;
-                        break;
-                    }
-                }
-                else
+                if (arrLink[i] != arrLink[j])
                 {
                     i = j;
+                    break;
+                }
+
+                countIdenticalChar++;
+
+                if (j == arrLink.Length - 1)
+                {
+                    i = j + 1;
                     break;
                 }
             }

@@ -1,8 +1,13 @@
 bin
 Debug
 .idea
-obj
-/Compressor/obj/Debug
-/Compressor/obj
-Compressor/obj/Debug/net8.0/Compressor.AssemblyInfo.cs
 /Standardization_of_logs/app
+*.obj
+/Compressor/obj
+/Compressor/obj
+/Compressor/obj
+/Standardization_of_logs/obj
+/Server/obj
+/Compressor/obj
+/Compressor/obj
+/Compressor/obj

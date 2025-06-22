@@ -17,8 +17,9 @@ class Program
             {
                 for (int j = 0; j < 3 ; j++)
                 {
-                    Server.GetCount();
+                    int result = Server.GetCount();
                     Thread.Sleep(100);
+                    Console.WriteLine($"Значение count: {result} считано!");
                 }
             });
         }
@@ -29,8 +30,9 @@ class Program
             {
                 for (int j = 0; j < 2 ; j++)
                 {
-                    Server.AddCount(2);
+                    Server.AddCount(j + 1);
                     Thread.Sleep(100);
+                    Console.WriteLine($"К значению переменной count добавлено {j + 1}!");
                 }
             });
         }
