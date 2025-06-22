@@ -55,13 +55,13 @@ class Program
         do
         {
             Console.WriteLine("Закончить работу? (Y/Да | N/Нет)");
-            string exit = Console.ReadLine()!.ToLower();
+            string exit = Console.ReadLine().ToLower();
             if (exit == "y" || exit == "да")
             {
                 goto exitLoop;
             }
 
-            if (exit != "n" || exit != "нет")
+            if (exit != "n" && exit != "нет")
             {
                 Console.WriteLine("Некорректное значение");
             }
