@@ -83,6 +83,6 @@ dotnet run --project .\Server\
 
 1. В корне репозитория использовать команду для сборки и запуска проекта (В качестве аргумента следует указать путь к файлу с логами):
 ```
-dotnet run -p Standardization_of_logs ./Standardization_of_logs/LogsInput.txt
+dotnet run --project Standardization_of_logs ./Standardization_of_logs/LogsInput.txt
 ```
 Выходные данные сохраняются в файлы ```logs.txt``` и ```problems.txt```
