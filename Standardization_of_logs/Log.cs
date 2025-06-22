@@ -26,7 +26,6 @@ public class Log
         };
     }
 
-
     private static Match[] TryParseInfo(string log)
     {
         var dataTimeRegex = new Regex(
@@ -110,7 +109,7 @@ public class Log
 
 
             ParseFromLog(line);
-            //запись в файл Logs.txt
+            //запись в файл logs.txt
             if (_message != null && _data != null && LvlLog != null)
             {
                 string[] arrayOfCorrectLog = [_data, LvlLog, _method, _message];

@@ -1,5 +1,8 @@
 ﻿namespace Server;
 
+/// <summary>
+/// This class needed only for server testing
+/// </summary>
 class Program
 {
     static void Main()
@@ -15,7 +18,7 @@ class Program
                 for (int j = 0; j < 3 ; j++)
                 {
                     Server.GetCount();
-                    Thread.Sleep(200);
+                    Thread.Sleep(100);
                 }
             });
         }
@@ -27,12 +30,13 @@ class Program
                 for (int j = 0; j < 2 ; j++)
                 {
                     Server.AddCount(2);
-                    Thread.Sleep(200);
+                    Thread.Sleep(100);
                 }
             });
         }
 
         Task.WaitAll(tasks);
+        Console.ReadLine();
 
     }
 }
