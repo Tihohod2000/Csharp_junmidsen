@@ -9,6 +9,16 @@ public class Log
     private string? _lvlLog;
     private string _method = "DEFAULT";
     private string? _message;
+    
+    
+    private readonly Regex _dataTimeRegex = new Regex(
+        @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*");
+
+    private readonly Regex _levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
+
+    private readonly Regex _methodRegex = new Regex(@"(?<method>[^|][A-Za-z]+[.]+[A-Za-z]+)\s*");
+
+    private readonly Regex _messageRegex = new Regex(@"(?<message>[А-Яа-я]+\s+[А-Яа-я]+[:]+.*)$");
 
     private string? LvlLog
     {
@@ -26,29 +36,40 @@ public class Log
         };
     }
 
-    private static Match[] TryParseInfo(string log)
+    private Match[] TryParseInfo(string log)
     {
-        var dataTimeRegex = new Regex(
-            @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*", RegexOptions.ExplicitCapture);
+        // var dataTimeRegex = new Regex(
+        //     @"(?<date>\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})\s+(?<time>\d{2}:\d{2}:\d{2}(?:\.\d{1,})?)\s*", RegexOptions.ExplicitCapture);
+        //
+        // var levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
+        //
+        // var methodRegex = new Regex(@"(?<method>[^|][A-Za-z]+[.]+[A-Za-z]+)\s*", RegexOptions.ExplicitCapture);
+        //
+        // var messageRegex = new Regex(@"(?<message>[А-Яа-я]+\s+[А-Яа-я]+[:]+.*)$");
+        //
+        // Match[] arrayMatch = 
+        // [
+        //     dataTimeRegex.Match(log),
+        //     levelRegex.Match(log),
+        //     methodRegex.Match(log),
+        //     messageRegex.Match(log)
+        // ];
+        
+        
+        
 
-        var levelRegex = new Regex(@"(?<level>INFO\w*|WARN\w*|ERROR|DEBUG)\b\s*");
-
-        var methodRegex = new Regex(@"(?<method>[^|][A-Za-z]+[.]+[A-Za-z]+)\s*", RegexOptions.ExplicitCapture);
-
-        var messageRegex = new Regex(@"(?<message>[А-Яа-я]+\s+[А-Яа-я]+[:]+.*)$");
-
-        Match[] arrayMatch = 
+        Match[] matches = 
         [
-            dataTimeRegex.Match(log),
-            levelRegex.Match(log),
-            methodRegex.Match(log),
-            messageRegex.Match(log)
+            _dataTimeRegex.Match(log),
+            _levelRegex.Match(log),
+            _methodRegex.Match(log),
+            _messageRegex.Match(log)
         ];
 
-        return arrayMatch;
+        return matches;
     }
 
-    private static bool IsValid(string? log)
+    private bool IsValid(string? log)
     {
         if (log == null) return false;
         
